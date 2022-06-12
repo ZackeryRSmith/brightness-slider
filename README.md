@@ -3,7 +3,7 @@ A simple python script to adjust screen brightness
 
 ## Usage
 To select which screen you want to dim/brighten
-change the variable SCREEN on line 12.
+pass the screen name as a commandline option.
 To list monitor names, run ```xrandr --listmonitors```.
 
 ## Requirements

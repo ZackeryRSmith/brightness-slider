@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from os import system
+from sys import argv
 
 # root window
 root = tk.Tk()
@@ -9,7 +10,7 @@ root.resizable(False, False)
 root.title('Adjust brightness')
 
 MIN=0.2
-SCREEN="DP-1"
+SCREEN=argv[1]
 
 
 # slider current value
