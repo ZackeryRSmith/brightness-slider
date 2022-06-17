@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from os import system
+from os import system, popen
 from sys import argv
 
 # root window
@@ -16,6 +16,19 @@ SCREEN=argv[1]
 # slider current value
 current_value = tk.DoubleVar() 
 
+
+def getmonitors() -> list:
+    # Gets the monitor names using xrandr
+
+    # gets the command output
+    output = popen("xrandr --listmonitors").read()
+    
+    # filters through the command output to get only the names 
+    lines = [ line for line in output.split("\n")[1:-1] ]
+    monitors = []
+    for line in lines: monitors.append(line.split(" ")[-1])
+
+    return monitors
 
 def get_current_value():
     return '{: .2f}'.format(current_value.get())
