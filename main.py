@@ -10,12 +10,14 @@ root.resizable(False, False)
 root.title('Adjust brightness')
 
 MIN=0.2
-SCREEN=argv[1]
+global SCREEN
 
 
 # slider current value
 current_value = tk.DoubleVar() 
 
+def setscreen(screen):
+    SCREEN = screen
 
 def getmonitors() -> list:
     # Gets the monitor names using xrandr
@@ -30,13 +32,28 @@ def getmonitors() -> list:
 
     return monitors
 
+
+
 def get_current_value():
     return '{: .2f}'.format(current_value.get())
 
 
 def slider_changed(event):
+
     value_label.configure(text=get_current_value())
-    system(f"xrandr --output {SCREEN} --brightness {get_current_value()}")
+    system(f"xrandr --output {chosen.get()} --brightness {get_current_value()}")
+
+screens = getmonitors()
+
+chosen = tk.StringVar()
+chosen.set(screens[0])
+
+menu = tk.OptionMenu(root, chosen, *screens)
+
+menu.grid(
+        column=2,
+        row=1
+)
 
 # label for the slider
 slider_label = ttk.Label(
