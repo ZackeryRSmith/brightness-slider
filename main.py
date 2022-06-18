@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
 from os import system, popen
-from sys import argv
 
 # root window
 root = tk.Tk()
