@@ -11,44 +11,31 @@ root.title('Adjust brightness')
 MIN=0.2
 global SCREEN
 
-
 # slider current value
-current_value = tk.DoubleVar() 
-
-def setscreen(screen):
-    SCREEN = screen
+current_value = tk.DoubleVar()
 
 def getmonitors() -> list:
-    # Gets the monitor names using xrandr
+    """ Gets the monitor names using xrandr """
 
     # gets the command output
     output = popen("xrandr --listmonitors").read()
-    
-    # filters through the command output to get only the names 
-    lines = [ line for line in output.split("\n")[1:-1] ]
-    monitors = []
-    for line in lines: monitors.append(line.split(" ")[-1])
+
+    # filters through the command output to get only the names
+    lines = [line for line in output.split("\n")[1:-1] ]
+    monitors = [line.split(" ")[-1] for line in lines]
 
     return monitors
 
-
-
-def get_current_value():
-    return '{: .2f}'.format(current_value.get())
-
-
+def get_current_value(): return '{: .2f}'.format(current_value.get())
 def slider_changed(event):
-
     value_label.configure(text=get_current_value())
     system(f"xrandr --output {chosen.get()} --brightness {get_current_value()}")
 
-screens = getmonitors()
-
-chosen = tk.StringVar()
+screens, chosen = getmonitors(), tk.StringVar()
 chosen.set(screens[0])
 
+# Create dropdown
 menu = tk.OptionMenu(root, chosen, *screens)
-
 menu.grid(
         column=2,
         row=1
@@ -59,7 +46,6 @@ slider_label = ttk.Label(
     root,
     text='Slider:'
 )
-
 slider_label.grid(
     column=0,
     row=0,
@@ -75,7 +61,6 @@ slider = ttk.Scale(
     command=slider_changed,
     variable=current_value
 )
-
 slider.grid(
     column=1,
     row=0,
@@ -87,7 +72,6 @@ current_value_label = ttk.Label(
     root,
     text='Brightness multiplier: '
 )
-
 current_value_label.grid(
     row=1,
     columnspan=2,
@@ -107,5 +91,5 @@ value_label.grid(
     sticky='n'
 )
 
-
-root.mainloop()
+if __name__ == "__main__":
+    root.mainloop()
